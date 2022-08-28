@@ -29,7 +29,6 @@ public class Parser {
         else { return completionHandler(.failure(.failedToParseGridSize)) }
 
         let grid = Grid(width: width, height: height)
-        print(grid)
         var map = DeliveryMap(grid: grid,
                               dropPoints: [])
 

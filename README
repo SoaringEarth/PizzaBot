@@ -23,3 +23,12 @@ Location.isWithinDeliveryZone
 Pizzabot.optimiseRoute
 
     This I feel could be refactored to a "Optimiser" class that can handle/perform different kinds of optimisations on the route. 
+
+Use Regex pattern matching (in progress):
+
+    I initially implemented this feature using high order functions which turned out to work but be messy
+        the implementation had everything in one place for parsing the input and while did support error handling and was
+        quite robust in terms of catching failing inputs wouldn't stand up to scutiny.
+
+        Updating the implementation to use a rigid pattern matching system would prove to be more testable, reliable,
+        and stand up to production test cases.

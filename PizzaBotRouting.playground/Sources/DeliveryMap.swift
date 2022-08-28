@@ -8,6 +8,16 @@ public struct DeliveryMap {
         self.grid = grid
         self.dropPoints = dropPoints
     }
+
+    public func isLocationWithinDeliveryZone(_ location: Location) -> Bool {
+        if (location.x < 0 || location.x > grid.width) {
+            return false
+        }
+        if (location.y < 0 || location.y > grid.height) {
+            return false
+        }
+        return true
+    }
 }
 
 extension DeliveryMap {

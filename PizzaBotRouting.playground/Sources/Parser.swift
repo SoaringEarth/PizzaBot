@@ -3,8 +3,8 @@ import Foundation
 public class Parser {
 
     public enum CapturePattern: String {
-        case grid = "(?<gridWidth>^[0-9]+)x(?<gridHeight>[0-9]+)"
-        case dropPoint = "[(](?<xCoord>[0-9]+), (?<yCoord>[0-9]+)[)]"
+        case grid = "(?<gridWidth>^[0-9]+)x(?<gridHeight>[0-9]+)" // https://regex101.com/r/BTxTwo/1
+        case dropPoint = "[(](?<xCoord>[0-9]+), (?<yCoord>[0-9]+)[)]" // https://regex101.com/r/yNSG6x/1
     }
 
     public enum GridCaptureGroup: String, CaseIterable {
@@ -45,8 +45,6 @@ public class Parser {
         completionHandler(.success(map))
     }
 
-    // https://regex101.com/r/BTxTwo/1
-    // https://regex101.com/r/yNSG6x/1
     public static func parse(input: String, captureGroups: [String], capturePattern: CapturePattern) -> [[String: Int]] {
         let nameRange = NSRange(input.startIndex..<input.endIndex, in: input)
         do {

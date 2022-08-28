@@ -66,7 +66,7 @@ public class PizzaBot: Robot {
     private func deliverTo(_ locations: [Location], completionHandler: @escaping (Result<String, PizzaBotError>) -> Void) {
         for location in locations {
             guard location.isWithinDeliveryZone(map: map) else {
-                return completionHandler(.failure(.locationOutsideGrid(location: location, gridSize: map.gridSize)))
+                return completionHandler(.failure(.locationOutsideGrid(location: location, gridSize: map.grid.size)))
             }
             moveTo(location: location.x, direction: .Horizontal)
             moveTo(location: location.y, direction: .Vertical)

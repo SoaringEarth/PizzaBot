@@ -26,7 +26,7 @@ public class PizzabotTests: XCTestCase {
 
     func test_runRoute() {
         let expectation = expectation(description: "expectation for pizzabot running their route")
-        let testMap = DeliveryMap(width: 5, height: 5, dropPoints: LocationFactory.generateLocations(amount: 10, maxRange: 5))
+        let testMap = DeliveryMap(grid: Grid(width: 5, height: 5), dropPoints: LocationFactory.generateLocations(amount: 10, maxRange: 5))
         let sut = PizzaBot(map: testMap)
         sut.run(optimised: false) { result in
             switch result {
@@ -41,7 +41,7 @@ public class PizzabotTests: XCTestCase {
 
     func test_exampleRoute() {
         let expectation = expectation(description: "expectation for pizzabot running the example route")
-        let testMap = DeliveryMap(width: 5, height: 5, dropPoints: [Location(x: 1, y: 3), Location(x: 4, y: 4)])
+        let testMap = DeliveryMap(grid: Grid(width: 5, height: 5), dropPoints: [Location(x: 1, y: 3), Location(x: 4, y: 4)])
         let sut = PizzaBot(map: testMap)
         sut.run(optimised: false) { result in
             switch result {

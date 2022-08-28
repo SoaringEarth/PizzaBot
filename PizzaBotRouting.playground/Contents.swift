@@ -2,7 +2,7 @@ import Foundation
 
 let rawInput = "5x5 (0, 0) (1, 3) (4, 4) (4, 2) (4, 2) (0, 1) (3, 2) (2, 3) (4, 1)"
 
-Parser.parse(input: rawInput) { result in
+Parser.parseDeliveryMap(input: rawInput) { result in
     switch result {
     case .success(let map):
         var bot = PizzaBot(map: map)
@@ -31,6 +31,6 @@ Parser.parse(input: rawInput) { result in
 
 var runTests = true
 if runTests {
-//    PizzabotTests.defaultTestSuite.run()
+    PizzabotTests.defaultTestSuite.run()
     ParserTests.defaultTestSuite.run()
 }

@@ -15,58 +15,42 @@ public class Parser {
         case xCoord, yCoord
     }
 
-    public static func parse(input: String, completionHandler: @escaping (Result<DeliveryMap, ParserError>) -> Void) {
+    public static func parseDeliveryMap(input: String, completionHandler: @escaping (Result<DeliveryMap, ParserError>) -> Void) {
         guard !input.isEmpty
         else {
             return completionHandler(.failure(.inputEmpty))
         }
-        Parser.prse(input: input)
-        let spaceSplit = input.split(maxSplits: 1,
-                                     omittingEmptySubsequences: true,
-                                     whereSeparator: { $0 == " "})
-        let gridSize = spaceSplit[0].split(separator: "x")
         guard
-            gridSize.count == 2, // Ensure we have 2 numbers to make a valid grid
-            let width = Int(gridSize[0]),
-            let height = Int(gridSize[1])
-        else {
-            return completionHandler(.failure(.failedToParseGridSize))
-        }
-        let locations = spaceSplit[1]
-            .filter({ $0 != " " && $0 != "(" })
-            .split(separator: ")")
-        var map = DeliveryMap(width: width,
-                              height: height,
+            let parsedGrid = parse(input: input,
+                                   captureGroups: GridCaptureGroup.allCases.map({"\($0)"}),
+                                   capturePattern: .grid).first,
+            let width = parsedGrid[GridCaptureGroup.gridWidth.rawValue],
+            let height = parsedGrid[GridCaptureGroup.gridHeight.rawValue]
+        else { return completionHandler(.failure(.failedToParseGridSize)) }
+
+        let grid = Grid(width: width, height: height)
+        print(grid)
+        var map = DeliveryMap(grid: grid,
                               dropPoints: [])
-        for location in locations {
-            let splitLocation = location.split(separator: ",")
+
+        let dropPoints: [Location] = parse(input: input,
+                                           captureGroups: DropPointCaptureGroup.allCases.map({"\($0)"}),
+                                           capturePattern: .dropPoint).compactMap({
             guard
-                splitLocation.count == 2,
-                let locationX = Int(splitLocation[0]),
-                let locationY = Int(splitLocation[1])
-            else {
-                return completionHandler(.failure(.failedToParseLocation(location: String(location))))
-            }
-            map.dropPoints.append(Location(x: locationX,
-                                           y: locationY))
-        }
+                let x = $0["xCoord"],
+                let y = $0["yCoord"]
+            else { return nil }
+            return Location(x: x, y: y)
+        })
+        print(dropPoints)
+        map.dropPoints = dropPoints
         completionHandler(.success(map))
     }
 
-    public static func prse(input: String) {//}, completionHandler: @escaping (Result<DeliveryMap, ParserError>) -> Void) {
-        let grid = Parser.newParser(input: input,
-                                    captureGroups: GridCaptureGroup.allCases.map({ "\($0)" }),
-                                    capturePattern: .grid).first
-        print(grid)
-    }
-
-    public static func newParser(input: String, captureGroups: [String], capturePattern: CapturePattern) -> [[String: Any]] {
-        // https://regex101.com/r/BTxTwo/1
-        // https://regex101.com/r/yNSG6x/1
-        let nameRange = NSRange(
-            input.startIndex..<input.endIndex,
-            in: input
-        )
+    // https://regex101.com/r/BTxTwo/1
+    // https://regex101.com/r/yNSG6x/1
+    public static func parse(input: String, captureGroups: [String], capturePattern: CapturePattern) -> [[String: Int]] {
+        let nameRange = NSRange(input.startIndex..<input.endIndex, in: input)
         do {
             let captureRegex = try! NSRegularExpression(pattern: capturePattern.rawValue,
                                                         options: [])
@@ -77,24 +61,20 @@ public class Parser {
                 // Handle exception
                 throw NSError(domain: "", code: 0, userInfo: nil)
             }
-
-            print(matches.count)
-
-            var capturedGroup: [String: Any] = [:]
-            var captures: [[String: Any]] = []
+            var capturedGroup: [String: Int] = [:]
+            var captures: [[String: Int]] = []
             // For each matched range, extract the named capture group
             for match in matches {
                 for group in captureGroups {
                     let matchRange = match.range(withName: group)
                     // Extract the substring matching the named capture group
                     if let substringRange = Range(matchRange, in: input) {
-                        let capture = String(input[substringRange])
+                        let capture = Int(input[substringRange])
                         capturedGroup[group] = capture
                     }
                 }
                 captures.append(capturedGroup)
             }
-            print(captures)
             return captures
         } catch {
             return []

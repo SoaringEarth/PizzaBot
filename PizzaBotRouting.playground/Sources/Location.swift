@@ -14,10 +14,10 @@ public struct Location: Equatable {
     }
 
     public func isWithinDeliveryZone(map: DeliveryMap) -> Bool {
-        if (x < 0 || x > map.width) {
+        if (x < 0 || x > map.grid.width) {
             return false
         }
-        if (y < 0 || y > map.height) {
+        if (y < 0 || y > map.grid.height) {
             return false
         }
         return true

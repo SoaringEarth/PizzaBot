@@ -23,14 +23,16 @@ public class PizzaBot: Robot {
     
     private var route: String = ""
     private var map: DeliveryMap
+    private var optimiser: Optimiser
 
-    public init(map: DeliveryMap) {
+    public init(map: DeliveryMap, optimiser: Optimiser) {
         self.map = map
+        self.optimiser = optimiser
     }
 
     public func run(optimised: Bool = false, completionHandler: @escaping (Result<String, PizzaBotError>) -> Void) {
         if optimised {
-            map.dropPoints = optimiseRoute(map.dropPoints)
+            map.dropPoints = optimiser.optimiseRoute(map.dropPoints)
         }
         deliverTo(map.dropPoints) { [weak self] result in
             switch result {
@@ -41,26 +43,6 @@ public class PizzaBot: Robot {
                 completionHandler(.failure(error))
             }
         }
-    }
-
-    private func optimiseRoute(_ locations: [Location]) -> [Location] {
-        func calculateDistance(start: Location, end: Location) -> Double {
-            let dX = Double(end.x - start.x)
-            let dY = Double(end.y - start.y)
-            let sqrX = sqrt(dX)
-            let sqrY = sqrt(dY)
-            let distance = sqrt((sqrX + sqrY))
-            return distance
-        }
-
-        var tmp: [Location] = []
-        for location in locations {
-            var tmpLocation = location
-            tmpLocation.distance = calculateDistance(start: Location.startPoint,
-                                                     end: location)
-            tmp.append(tmpLocation)
-        }
-        return tmp.sorted(by: { $0.distance < $1.distance })
     }
 
     private func deliverTo(_ locations: [Location], completionHandler: @escaping (Result<String, PizzaBotError>) -> Void) {

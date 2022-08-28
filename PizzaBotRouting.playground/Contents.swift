@@ -2,10 +2,12 @@ import Foundation
 
 let rawInput = "5x5 (0, 0) (1, 3) (4, 4) (4, 2) (4, 2) (0, 1) (3, 2) (2, 3) (4, 1)"
 
+let optimiser = RouteOptimiser()
+
 Parser.parseDeliveryMap(input: rawInput) { result in
     switch result {
     case .success(let map):
-        var bot = PizzaBot(map: map)
+        var bot = PizzaBot(map: map, optimiser: optimiser)
         bot.run(optimised: false) { result in
             switch result {
             case .success(let routeTaken):
@@ -15,7 +17,7 @@ Parser.parseDeliveryMap(input: rawInput) { result in
             }
         }
 
-        bot = PizzaBot(map: map)
+        bot = PizzaBot(map: map, optimiser: optimiser)
         bot.run(optimised: true) { result in
             switch result {
             case .success(let routeTaken):

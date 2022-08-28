@@ -83,7 +83,6 @@ public class PizzaBot: Robot {
                 currentLocation.y = location
                 return
             }
-
         }
         moveTo(location: location, direction: direction)
     }

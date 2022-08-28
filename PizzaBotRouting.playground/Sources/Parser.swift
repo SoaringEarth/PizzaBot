@@ -41,7 +41,6 @@ public class Parser {
             else { return nil }
             return Location(x: x, y: y)
         })
-        print(dropPoints)
         map.dropPoints = dropPoints
         completionHandler(.success(map))
     }
@@ -79,5 +78,4 @@ public class Parser {
             return []
         }
     }
-
 }

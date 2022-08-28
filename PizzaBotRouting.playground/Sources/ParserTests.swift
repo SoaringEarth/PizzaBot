@@ -18,7 +18,7 @@ public class ParserTests: XCTestCase {
 
     func test_parse_grid_failed() {
         let captureTypes = Parser.GridCaptureGroup.allCases.map({"\($0)"})
-        let regex = "(?<gridWidth>^[0-9]+)x(?<gridHeight>[0-9]+)"
+        let regex = Parser.CapturePattern.grid
         var input = "55 (0, 0) (1, 3) (4, 4) (4, 2) (4, 2) (0, 1) (3, 2) (2, 3) (4, 1)"
         var sut = Parser.newParser(input: input, captureGroups: captureTypes, capturePattern: regex)
         XCTAssertEqual(sut.count, 0)

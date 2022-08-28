@@ -2,6 +2,11 @@ import Foundation
 
 public class Parser {
 
+    public enum CapturePattern: String {
+        case grid = "(?<gridWidth>^[0-9]+)x(?<gridHeight>[0-9]+)"
+        case dropPoint = "[(](?<xCoord>[0-9]+), (?<yCoord>[0-9]+)[)]"
+    }
+
     public enum GridCaptureGroup: String, CaseIterable {
         case gridWidth, gridHeight
     }
@@ -15,6 +20,7 @@ public class Parser {
         else {
             return completionHandler(.failure(.inputEmpty))
         }
+        Parser.prse(input: input)
         let spaceSplit = input.split(maxSplits: 1,
                                      omittingEmptySubsequences: true,
                                      whereSeparator: { $0 == " "})
@@ -47,7 +53,14 @@ public class Parser {
         completionHandler(.success(map))
     }
 
-    public static func newParser(input: String, captureGroups: [String], capturePattern: String) -> [[String: Any]] {
+    public static func prse(input: String) {//}, completionHandler: @escaping (Result<DeliveryMap, ParserError>) -> Void) {
+        let grid = Parser.newParser(input: input,
+                                    captureGroups: GridCaptureGroup.allCases.map({ "\($0)" }),
+                                    capturePattern: .grid).first
+        print(grid)
+    }
+
+    public static func newParser(input: String, captureGroups: [String], capturePattern: CapturePattern) -> [[String: Any]] {
         // https://regex101.com/r/BTxTwo/1
         // https://regex101.com/r/yNSG6x/1
         let nameRange = NSRange(
@@ -55,7 +68,7 @@ public class Parser {
             in: input
         )
         do {
-            let captureRegex = try! NSRegularExpression(pattern: capturePattern,
+            let captureRegex = try! NSRegularExpression(pattern: capturePattern.rawValue,
                                                         options: [])
             let matches = captureRegex.matches(in: input,
                                                options: [],

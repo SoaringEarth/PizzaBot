@@ -1,7 +1,7 @@
 import Foundation
 
 public struct DeliveryMap {
-    let grid: Grid
+    public let grid: Grid
     public var dropPoints: [Location]
 
     public init(grid: Grid, dropPoints: [Location]) {

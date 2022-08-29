@@ -12,7 +12,7 @@ Here are a few of the improvements that I'd like to make:
     implementing a solution based around the travelling salesman / vehicle routing problems would be more optimal.
 - Better logging, I just have a few prints dotted around but ideally a better way of surfacing process updates would be nicer.
 
-- Improvements:
+**New Features:**
 
 **PizzaBot Return to home:**
 Have functionality to enable pizzabot to path home once all delivery locations have been visited and a pizza dropped off. Abandoning Pizzabot in the middle / end of its route doesn't seem fair and so providing logic to allow them to return back to the start location seems like the right thing to do. The functionality already exists It would be a case of creating a local route within the pizza bot from its current location (end of pizza delivery route) back to (0, 0) and sending it on it's way using the existing functions, though an additional flag for `returningToHome` might be useful to enable / disable specific functionality for example it shouldn't be using the `drop pizza` instruction when returning home.

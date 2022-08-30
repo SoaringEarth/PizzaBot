@@ -20,7 +20,7 @@ Have functionality to enable pizzabot to path home once all delivery locations h
 **Support for Multiple PizzaBots:**
 Have a new object which could be named `Dispatcher` which receives the input, splits the drop locations based on certain criteria (grid location, distance from start, etc) and dispatches a unique PizzaBot to complete each split of the route based on the chosen criteria. This feature ties to the following potential features below. 
 
-**Support for PizzaBot to delivery multiple routes:**
+**Support for PizzaBot to deliver to multiple routes:**
 Be able to parse 2 separate routes from input, pass multiple routes to PizzaBot and in series PizzaBot should be able to complete a route, return to home, start the next route and continue that pattern until all routes are completed and PizzaBot returns safely home.
 
 **Support for multiple delivery grids and multiple routes of mixed input:**

@@ -26,7 +26,7 @@ Be able to parse 2 separate routes from input, pass multiple routes to PizzaBot 
 **Support for multiple delivery grids and multiple routes of mixed input:**
 Take the scenario that many orders for delivery come in with a wide variety of grid locations, the first 10 could belong to different grids ((0, 0) to (5, 5) OR (0, 0) to (-5, -5) OR (0, 0) to (5, -5) etc) and PizzaBot / a new entity (named Dispatcher) should be able to take those locations, assign them to the correct grid and then dispatch a PizzaBot to make the deliveries.  
 
-**- Code Optimisation:**
+**Code Optimisation:**
 
 **Location.isWithinDeliveryZone** *(done)*
 
